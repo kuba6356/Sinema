@@ -1,26 +1,40 @@
 package com.Sinema.demo.users;
 
+import com.Sinema.demo.tickets.Ticket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name ="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
     @Email
+    @Column(unique = true)
     private String email;
     private String passwordHash;
     private String role;
+    @OneToMany(
+            cascade = CascadeType.REFRESH
+    )
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    )
+    private List<Ticket> ticketsList;
 
     public void User(Long id, String email, String passwordHash, String role) {
         this.id = id;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.ticketsList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -55,16 +69,24 @@ public class User {
         this.role = role;
     }
 
+    public List<Ticket> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Ticket> ticketsList) {
+        this.ticketsList = ticketsList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(role, user.role);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(role, user.role) && Objects.equals(ticketsList, user.ticketsList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, passwordHash, role);
+        return Objects.hash(id, email, passwordHash, role, ticketsList);
     }
 
     @Override
@@ -74,6 +96,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", role='" + role + '\'' +
+                ", ticketsList=" + ticketsList +
                 '}';
     }
 }
