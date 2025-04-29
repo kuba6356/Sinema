@@ -29,12 +29,14 @@ public class User {
     )
     private List<Ticket> ticketsList;
 
-    public void User(Long id, String email, String passwordHash, String role) {
-        this.id = id;
+    public User(String email, String passwordHash, String role) {
         this.email = email;
         this.passwordHash = passwordHash;
-        this.role = role;
+        this.role = "User";
         this.ticketsList = new ArrayList<>();
+    }
+
+    public User() {
     }
 
     public Long getId() {

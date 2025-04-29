@@ -2,6 +2,8 @@ package com.Sinema.demo.tickets;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name ="tickets")
 public class Ticket {
@@ -13,6 +15,56 @@ public class Ticket {
     private String ticket_code;
     private boolean used;
 
+    public Ticket(String ticket_code) {
+        this.ticket_code = ticket_code;
+        this.used = false;
+    }
 
+    public Ticket() {
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTicket_code() {
+        return ticket_code;
+    }
+
+    public void setTicket_code(String ticket_code) {
+        this.ticket_code = ticket_code;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return used == ticket.used && Objects.equals(id, ticket.id) && Objects.equals(ticket_code, ticket.ticket_code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ticket_code, used);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", ticket_code='" + ticket_code + '\'' +
+                ", used=" + used +
+                '}';
+    }
 }
