@@ -1,5 +1,6 @@
 package com.Sinema.demo.screenings;
 
+import com.Sinema.demo.movies.Movie;
 import com.Sinema.demo.tickets.Ticket;
 import jakarta.persistence.*;
 
@@ -23,6 +24,15 @@ public class Screening {
     private int[] availableSeats;
     private boolean canceled;
     private boolean scanned;
+    @ManyToOne(
+            cascade = CascadeType.REFRESH
+    )
+    @JoinColumn(
+            name = "screening_id",
+            referencedColumnName = "id"
+    )
+    private Movie movie;
+
     @OneToMany(
             cascade = CascadeType.REFRESH
     )

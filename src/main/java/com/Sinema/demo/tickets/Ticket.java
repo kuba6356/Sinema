@@ -1,5 +1,6 @@
 package com.Sinema.demo.tickets;
 
+import com.Sinema.demo.screenings.Screening;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -14,6 +15,14 @@ public class Ticket {
     @Column(unique = true)
     private String ticket_code;
     private boolean used;
+    @ManyToOne(
+            cascade = CascadeType.REFRESH
+    )
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    )
+    private Screening screening;
 
     public Ticket(String ticket_code) {
         this.ticket_code = ticket_code;
