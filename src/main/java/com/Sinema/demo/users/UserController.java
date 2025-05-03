@@ -3,10 +3,7 @@ package com.Sinema.demo.users;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -42,5 +39,16 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserDTO user){
         userService.loginUser(user);
         return new ResponseEntity("Login Successful", HttpStatus.OK);
+    }
+
+    @GetMapping("/resetPassword")
+    public String getResetPasswordPage(){
+        return "userTemplate/resetPassword";
+    }
+
+    @GetMapping("/api/v1/resetPassword")
+    public ResponseEntity sendResetPasswordToken(@RequestBody ResetPasswordDTO email){
+        userService.sentResetToken(email);
+        return ResponseEntity.ok().body("reset token sent to email");
     }
 }

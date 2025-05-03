@@ -5,24 +5,38 @@ import com.Sinema.demo.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class PasswordToken extends Token{
+
+    private static final int EXPIRATION_TIME_IN_MINUTES = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",
+                unique = true)
     private User user;
     private LocalDateTime expirationDateTime;
     private String token;
 
+
     public PasswordToken(User user) {
-        super(user);
+        this.user = user;
+        this.expirationDateTime = calculateExpirationDateTime(EXPIRATION_TIME_IN_MINUTES);
+        this.token = String.valueOf(UUID.randomUUID());
     }
 
     public PasswordToken() {
+        super();
+    }
+
+    @Override
+    protected LocalDateTime calculateExpirationDateTime(int expirationTimeInMinutes) {
+        return super.calculateExpirationDateTime(expirationTimeInMinutes);
     }
 
     @Override
@@ -37,46 +51,31 @@ public class PasswordToken extends Token{
 
     @Override
     public Long getId() {
-        return super.getId();
+        return id;
     }
 
     @Override
     public void setId(Long id) {
-        super.setId(id);
-    }
-
-    @Override
-    public String getToken() {
-        return super.getToken();
-    }
-
-    @Override
-    public void setToken(String token) {
-        super.setToken(token);
+        this.id = id;
     }
 
     @Override
     public User getUser() {
-        return super.getUser();
+        return user;
     }
 
     @Override
     public void setUser(User user) {
-        super.setUser(user);
+        this.user = user;
     }
 
     @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
+    public String getToken() {
+        return token;
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
+    public void setToken(String token) {
+        this.token = token;
     }
 }

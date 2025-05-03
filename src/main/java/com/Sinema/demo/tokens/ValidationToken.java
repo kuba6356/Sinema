@@ -4,24 +4,37 @@ import com.Sinema.demo.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class ValidationToken extends Token{
+
+    private static final int EXPIRATION_TIME_IN_MINUTES = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",
+                unique = true)
     private User user;
     private LocalDateTime expirationDateTime;
     private String token;
 
     public ValidationToken(User user) {
-        super(user);
+        this.user = user;
+        this.expirationDateTime = calculateExpirationDateTime(EXPIRATION_TIME_IN_MINUTES);
+        this.token = String.valueOf(UUID.randomUUID());
     }
 
     public ValidationToken() {
+        super();
+    }
+
+    @Override
+    protected LocalDateTime calculateExpirationDateTime(int expirationTimeInMinutes) {
+        return super.calculateExpirationDateTime(expirationTimeInMinutes);
     }
 
     @Override

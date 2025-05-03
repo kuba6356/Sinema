@@ -1,6 +1,7 @@
 package com.Sinema.demo.tokens;
 
 import com.Sinema.demo.users.User;
+import jakarta.persistence.Column;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -24,7 +25,7 @@ public abstract class Token {
     protected Token() {
     }
 
-    private LocalDateTime calculateExpirationDateTime(int expirationTimeInMinutes) {
+    protected LocalDateTime calculateExpirationDateTime(int expirationTimeInMinutes) {
         return LocalDateTime.now().plusMinutes(expirationTimeInMinutes);
     }
 
