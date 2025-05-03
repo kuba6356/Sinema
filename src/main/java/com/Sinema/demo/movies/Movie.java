@@ -13,6 +13,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
+    @Column(unique = true)
     private String name;
     private String description;
     private List<String> themes = new ArrayList<>();

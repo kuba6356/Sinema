@@ -15,11 +15,12 @@ public class Ticket {
     @Column(unique = true)
     private String ticket_code;
     private boolean used;
+    private boolean canceled;
     @ManyToOne(
             cascade = CascadeType.REFRESH
     )
     @JoinColumn(
-            name = "user_id",
+            name = "screening_id",
             referencedColumnName = "id"
     )
     private Screening screening;
@@ -27,6 +28,7 @@ public class Ticket {
     public Ticket(String ticket_code) {
         this.ticket_code = ticket_code;
         this.used = false;
+        this.canceled = false;
     }
 
     public Ticket() {
@@ -56,24 +58,33 @@ public class Ticket {
         this.used = used;
     }
 
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return used == ticket.used && Objects.equals(id, ticket.id) && Objects.equals(ticket_code, ticket.ticket_code);
+        return used == ticket.used && canceled == ticket.canceled && Objects.equals(id, ticket.id) && Objects.equals(ticket_code, ticket.ticket_code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ticket_code, used);
+        return Objects.hash(id, ticket_code, used, canceled);
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
-                "id=" + id +
-                ", ticket_code='" + ticket_code + '\'' +
+                "canceled=" + canceled +
                 ", used=" + used +
+                ", ticket_code='" + ticket_code + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

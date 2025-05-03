@@ -22,13 +22,11 @@ public class Screening {
     private LocalDate date;
     private LocalTime time;
     private int[] availableSeats;
-    private boolean canceled;
-    private boolean scanned;
     @ManyToOne(
             cascade = CascadeType.REFRESH
     )
     @JoinColumn(
-            name = "screening_id",
+            name = "movie_id",
             referencedColumnName = "id"
     )
     private Movie movie;
@@ -49,8 +47,6 @@ public class Screening {
         for(int temp = 0; temp < availableSeats; temp++){
             this.availableSeats[temp] = temp;
         }
-        this.canceled = false;
-        this.scanned = false;
         this.tickets = new ArrayList<>();
     }
 
@@ -89,22 +85,6 @@ public class Screening {
         this.availableSeats = availableSeats;
     }
 
-    public boolean isCanceled() {
-        return canceled;
-    }
-
-    public void setCanceled(boolean canceled) {
-        this.canceled = canceled;
-    }
-
-    public boolean isScanned() {
-        return scanned;
-    }
-
-    public void setScanned(boolean scanned) {
-        this.scanned = scanned;
-    }
-
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -117,12 +97,12 @@ public class Screening {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Screening screening = (Screening) o;
-        return canceled == screening.canceled && scanned == screening.scanned && Objects.equals(id, screening.id) && Objects.equals(date, screening.date) && Objects.equals(time, screening.time) && Objects.deepEquals(availableSeats, screening.availableSeats) && Objects.equals(tickets, screening.tickets);
+        return Objects.equals(id, screening.id) && Objects.equals(date, screening.date) && Objects.equals(time, screening.time) && Objects.deepEquals(availableSeats, screening.availableSeats) && Objects.equals(tickets, screening.tickets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, time, Arrays.hashCode(availableSeats), canceled, scanned, tickets);
+        return Objects.hash(id, date, time, Arrays.hashCode(availableSeats), tickets);
     }
 
     @Override
@@ -132,8 +112,6 @@ public class Screening {
                 ", date=" + date +
                 ", time=" + time +
                 ", availableSeats=" + Arrays.toString(availableSeats) +
-                ", canceled=" + canceled +
-                ", scanned=" + scanned +
                 ", tickets=" + tickets +
                 '}';
     }
