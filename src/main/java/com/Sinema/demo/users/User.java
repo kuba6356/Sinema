@@ -3,6 +3,7 @@ package com.Sinema.demo.users;
 import com.Sinema.demo.tickets.Ticket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class User {
     )
     private List<Ticket> ticketsList;
 
-    public User(String email, String passwordHash, String role) {
+    public User(String email, String passwordHash) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = "User";
