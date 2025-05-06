@@ -16,7 +16,7 @@ import java.util.Objects;
 @Table(name ="screenings")
 public class Screening {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)
     private Long id;
     private LocalDate date;

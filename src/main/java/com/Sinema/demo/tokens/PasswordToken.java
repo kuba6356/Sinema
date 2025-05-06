@@ -13,7 +13,7 @@ public class PasswordToken extends Token{
     private static final int EXPIRATION_TIME_IN_MINUTES = 20;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)
     private Long id;
     @OneToOne

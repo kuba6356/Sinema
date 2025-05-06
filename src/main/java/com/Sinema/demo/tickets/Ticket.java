@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name ="tickets")
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)
     private Long id;
     @Column(unique = true)

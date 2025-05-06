@@ -2,7 +2,6 @@ package com.Sinema.demo.users;
 
 
 import jakarta.validation.constraints.Email;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserDTO {
 

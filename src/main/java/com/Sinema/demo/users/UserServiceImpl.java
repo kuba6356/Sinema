@@ -1,13 +1,13 @@
 package com.Sinema.demo.users;
 
 import com.Sinema.demo.configuration.PasswordEncoder;
-import com.Sinema.demo.tokens.PasswordToken;
-import com.Sinema.demo.tokens.PasswordTokenRepository;
-import com.Sinema.demo.tokens.ValidationToken;
-import com.Sinema.demo.tokens.ValidationTokenRepository;
+import com.Sinema.demo.tokens.*;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,11 +16,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final PasswordTokenRepository passwordTokenRepository;
     private final ValidationTokenRepository validationTokenRepository;
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, PasswordTokenRepository passwordTokenRepository, ValidationTokenRepository validationTokenRepository) {
+    private final JwtService jwtService;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, PasswordTokenRepository passwordTokenRepository, ValidationTokenRepository validationTokenRepository, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordTokenRepository = passwordTokenRepository;
         this.validationTokenRepository = validationTokenRepository;
+        this.jwtService = jwtService;
     }
 
 
@@ -40,16 +42,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void loginUser(UserDTO user) {
+    public String loginUser(UserDTO user) {
         try {
             User foundUser = userRepository.findByEmail(user.getEmail());
             if(foundUser.getId() == null){
                 System.out.println("No user found");
                 //TODO Create a custom exception
             }
+
             if(passwordEncoder.getbCryptPasswordEncoder().matches
-                    (foundUser.getPasswordHash(), user.getPassword())){
-                //TODO create new JWT token and save it
+                    (user.getPassword(), foundUser.getPasswordHash())){
+                return jwtService.generateToken(user.getEmail());
             }
             else {
                 System.out.println("Wrong password");
@@ -59,6 +62,7 @@ public class UserServiceImpl implements UserService {
         catch (Exception e){
             //TODO create custom error handler for no password/email in the Body
         }
+        return null;
     }
 
     @Override

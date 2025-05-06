@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name ="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)
     private Long id;
     @Email
@@ -33,7 +33,7 @@ public class User {
     public User(String email, String passwordHash) {
         this.email = email;
         this.passwordHash = passwordHash;
-        this.role = "User";
+        this.role = "WaitingValidation";
         this.ticketsList = new ArrayList<>();
     }
 
