@@ -44,14 +44,5 @@ public class UserController {
         return new ResponseEntity("Login Successful", HttpStatus.OK);
     }
 
-    @GetMapping("/resetPassword")
-    public String getResetPasswordPage(){
-        return "userTemplate/resetPassword";
-    }
 
-    @GetMapping("/api/v1/resetPassword")
-    public ResponseEntity sendResetPasswordToken(@RequestBody ResetPasswordDTO email){
-        userService.sentResetToken(email);
-        return ResponseEntity.ok().body("reset token sent to email");
-    }
 }

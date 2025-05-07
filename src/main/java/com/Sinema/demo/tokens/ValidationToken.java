@@ -4,15 +4,17 @@ import com.Sinema.demo.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 public class ValidationToken extends Token{
 
-    private static final int EXPIRATION_TIME_IN_MINUTES = 20;
+    private static final int EXPIRATION_TIME_IN_MINUTES = 1;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "validationToken_seq")
+    @SequenceGenerator(name = "validationToken_seq", sequenceName = "validationToken_sequence", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
     @OneToOne
@@ -38,57 +40,65 @@ public class ValidationToken extends Token{
     }
 
     @Override
-    public LocalDateTime getExpirationDateTime() {
-        return super.getExpirationDateTime();
-    }
-
-    @Override
-    public void setExpirationDateTime(LocalDateTime expirationDateTime) {
-        super.setExpirationDateTime(expirationDateTime);
-    }
-
-    @Override
     public Long getId() {
-        return super.getId();
+        return id;
     }
 
     @Override
     public void setId(Long id) {
-        super.setId(id);
-    }
-
-    @Override
-    public String getToken() {
-        return super.getToken();
-    }
-
-    @Override
-    public void setToken(String token) {
-        super.setToken(token);
+        this.id = id;
     }
 
     @Override
     public User getUser() {
-        return super.getUser();
+        return user;
     }
 
     @Override
     public void setUser(User user) {
-        super.setUser(user);
+        this.user = user;
+    }
+
+    @Override
+    public LocalDateTime getExpirationDateTime() {
+        return expirationDateTime;
+    }
+
+    @Override
+    public void setExpirationDateTime(LocalDateTime expirationDateTime) {
+        this.expirationDateTime = expirationDateTime;
+    }
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ValidationToken that = (ValidationToken) o;
+        return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(expirationDateTime, that.expirationDateTime) && Objects.equals(token, that.token);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(super.hashCode(), id, user, expirationDateTime, token);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return "ValidationToken{" +
+                "id=" + id +
+                ", user=" + user +
+                ", expirationDateTime=" + expirationDateTime +
+                ", token='" + token + '\'' +
+                '}';
     }
 }

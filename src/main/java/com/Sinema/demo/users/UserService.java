@@ -7,5 +7,9 @@ public interface UserService {
 
     String loginUser(UserDTO user);
 
-    void sentResetToken(ResetPasswordDTO email);
+    void sentResetToken(String email);
+
+    void ChangePasswordUsingToken(String token, String newPassword);
+
+    void validateNewUser(String token);
 }

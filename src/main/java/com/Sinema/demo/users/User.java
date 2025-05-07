@@ -3,8 +3,6 @@ package com.Sinema.demo.users;
 import com.Sinema.demo.tickets.Ticket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +11,8 @@ import java.util.Objects;
 @Table(name ="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
     @Email

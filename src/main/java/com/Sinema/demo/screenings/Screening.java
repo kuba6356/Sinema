@@ -16,7 +16,8 @@ import java.util.Objects;
 @Table(name ="screenings")
 public class Screening {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "screenings_seq")
+    @SequenceGenerator(name = "screenings_seq", sequenceName = "screenings_sequence", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
     private LocalDate date;

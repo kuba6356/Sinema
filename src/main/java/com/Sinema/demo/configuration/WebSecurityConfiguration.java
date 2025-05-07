@@ -30,7 +30,7 @@ public class WebSecurityConfiguration {
 
     private static final String[] GUEST_ACCESS_ALLOWED = {
             "/login",
-            "/",
+            "***",
             "/register",
             "/resetPassword",
             "/api/v1/**"

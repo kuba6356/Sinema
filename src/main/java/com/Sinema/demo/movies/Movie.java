@@ -10,7 +10,8 @@ import java.util.Objects;
 @Table(name ="movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
+    @SequenceGenerator(name = "movie_seq", sequenceName = "movie_sequence", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
     @Column(unique = true)

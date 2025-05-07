@@ -5,15 +5,17 @@ import com.Sinema.demo.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 public class PasswordToken extends Token{
 
-    private static final int EXPIRATION_TIME_IN_MINUTES = 20;
+    private static final int EXPIRATION_TIME_IN_MINUTES = 1;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passwordToken_seq")
+    @SequenceGenerator(name = "passwordToken_seq", sequenceName = "passwordToken_sequence", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
     @OneToOne
@@ -36,17 +38,17 @@ public class PasswordToken extends Token{
 
     @Override
     protected LocalDateTime calculateExpirationDateTime(int expirationTimeInMinutes) {
-        return super.calculateExpirationDateTime(expirationTimeInMinutes);
+        return LocalDateTime.now().plusMinutes(expirationTimeInMinutes);
     }
 
     @Override
     public LocalDateTime getExpirationDateTime() {
-        return super.getExpirationDateTime();
+        return this.expirationDateTime;
     }
 
     @Override
     public void setExpirationDateTime(LocalDateTime expirationDateTime) {
-        super.setExpirationDateTime(expirationDateTime);
+        this.expirationDateTime = expirationDateTime;
     }
 
     @Override
@@ -77,5 +79,28 @@ public class PasswordToken extends Token{
     @Override
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PasswordToken that = (PasswordToken) o;
+        return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(expirationDateTime, that.expirationDateTime) && Objects.equals(token, that.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, user, expirationDateTime, token);
+    }
+
+    @Override
+    public String toString() {
+        return "PasswordToken{" +
+                "id=" + id +
+                ", user=" + user +
+                ", expirationDateTime=" + expirationDateTime +
+                ", token='" + token + '\'' +
+                '}';
     }
 }
