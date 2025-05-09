@@ -41,7 +41,7 @@ public class Screening {
     )
     private List<Ticket> tickets;
 
-    public Screening(LocalDate date, LocalTime time, int availableSeats) {
+    public Screening(LocalDate date, LocalTime time, int availableSeats, Movie movie) {
         this.date = date;
         this.time = time;
         this.availableSeats = new int[availableSeats];
@@ -49,6 +49,7 @@ public class Screening {
             this.availableSeats[temp] = temp;
         }
         this.tickets = new ArrayList<>();
+        this.movie = movie;
     }
 
     public Screening() {
@@ -82,8 +83,11 @@ public class Screening {
         return availableSeats;
     }
 
-    public void setAvailableSeats(int[] availableSeats) {
-        this.availableSeats = availableSeats;
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = new int[availableSeats];
+        for(int temp = 0; temp < availableSeats; temp++){
+            this.availableSeats[temp] = temp;
+        }
     }
 
     public List<Ticket> getTickets() {
@@ -92,6 +96,14 @@ public class Screening {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     @Override

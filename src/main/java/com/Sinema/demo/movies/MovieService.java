@@ -14,4 +14,5 @@ public interface MovieService {
     Movie changeMovie(Movie movie, String name);
 
     void deleteMovie(String name);
+
 }

@@ -4,6 +4,7 @@ import com.Sinema.demo.screenings.Screening;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name ="tickets")
@@ -17,6 +18,7 @@ public class Ticket {
     private String ticket_code;
     private boolean used;
     private boolean canceled;
+    private Integer seat;
     @ManyToOne(
             cascade = CascadeType.REFRESH
     )
@@ -26,10 +28,11 @@ public class Ticket {
     )
     private Screening screening;
 
-    public Ticket(String ticket_code) {
-        this.ticket_code = ticket_code;
+    public Ticket(Integer seat) {
+        this.ticket_code = UUID.randomUUID().toString();
         this.used = false;
         this.canceled = false;
+        this.seat = seat;
     }
 
     public Ticket() {
@@ -67,12 +70,21 @@ public class Ticket {
         this.canceled = canceled;
     }
 
+    public Integer getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Integer seat) {
+        this.seat = seat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return used == ticket.used && canceled == ticket.canceled && Objects.equals(id, ticket.id) && Objects.equals(ticket_code, ticket.ticket_code);
     }
+
 
     @Override
     public int hashCode() {
