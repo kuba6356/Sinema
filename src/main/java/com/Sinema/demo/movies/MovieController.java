@@ -30,17 +30,17 @@ public class MovieController {
         return ResponseEntity.ok().body(movieService.getAllMovies());
     }
 
-    @PostMapping("/api/v1/movie")
+    @PostMapping("/api/v1/admin/movie")
     public ResponseEntity<Movie> newMovie(@RequestBody Movie newMovie){
         return ResponseEntity.ok().body(movieService.addNewMovie(newMovie));
     }
 
-    @PutMapping("/api/v1/movie/{name}")
+    @PutMapping("/api/v1/movie/admin/{name}")
     public ResponseEntity<Movie> changeMovieInfo(@PathVariable String name, @RequestBody Movie changedMovie){
         return ResponseEntity.ok().body(movieService.changeMovie(changedMovie, name));
     }
 
-    @DeleteMapping("/api/v1/movie/{name}")
+    @DeleteMapping("/api/v1/movie/admin/{name}")
     public ResponseEntity deleteMovie(@PathVariable String name){
         movieService.deleteMovie(name);
         return ResponseEntity.ok().body("deleted");

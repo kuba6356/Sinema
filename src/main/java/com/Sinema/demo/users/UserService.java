@@ -12,4 +12,6 @@ public interface UserService {
     void ChangePasswordUsingToken(String token, String newPassword);
 
     void validateNewUser(String token);
+
+    String deleteUser(Long id);
 }

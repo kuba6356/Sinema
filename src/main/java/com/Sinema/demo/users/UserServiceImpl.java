@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -158,5 +157,16 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             //TODO add custom exception
         }
+    }
+
+    @Override
+    @Transactional
+    public String deleteUser(Long id) {
+        User user = userRepository.findById(id).get();
+        if(user == null){
+            //TODO add custom exception
+        }
+        userRepository.delete(user);
+        return "User deleted succesfully";
     }
 }

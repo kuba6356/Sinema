@@ -44,5 +44,10 @@ public class UserController {
         return new ResponseEntity("Login Successful", HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/v1/admin/delete{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(userService.deleteUser(id));
+    }
+
 
 }
